@@ -25,9 +25,9 @@ void eventReceiveWhoRequest(mixed *packet) {
     mixed *msg;
     string ret = "";
     if( file_name(previous_object()) != INTERMUD_D ) return;
-    msg = map(filter(users(), (: (environment($1) && !((int)$1->GetInvis()))  :)),
-      (: ({ (string)$1->GetCapName(), query_idle($1),
-	  (string)$1->GetShort() }) :));
+    msg = map(filter(users(), (: (environment($1) && !((int)$1->query_invisible()))  :)),
+      (: ({ (string)$1->query_cap_name(), query_idle($1),
+	  (string)$1->query_short() }) :));
     INTERMUD_D->eventWrite(({ "who-reply", 5, mud_name(), 0, packet[2],
 	packet[3], msg }));
     foreach(string *entry in msg){
@@ -39,7 +39,7 @@ void eventReceiveWhoRequest(mixed *packet) {
 void eventSendWhoRequest(string mud) {
     string who;
 
-    who = (string)this_player(1)->GetKeyName();
+    who = (string)this_player(1)->query_name();
     INTERMUD_D->eventWrite(({ "who-req", 5, mud_name(), who, mud, 0 }));
 }
 

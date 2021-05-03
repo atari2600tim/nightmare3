@@ -14,7 +14,7 @@ void eventReceiveEmote(mixed *packet) {
 
     if( file_name(previous_object()) != INTERMUD_D ) return;
     who = convert_name(packet[5]);
-    if( !(ob = find_player(who)) || (int)ob->GetInvis() ) {
+    if( !(ob = find_player(who)) || (int)ob->query_invis() ) {
 	INTERMUD_D->eventWrite(({ "error", 5, mud_name(), 0, packet[2],
 	    packet[3], "unk-user", 
 	    capitalize(packet[5]) + " is nowhere to "
@@ -29,8 +29,8 @@ void eventReceiveEmote(mixed *packet) {
 void eventSendEmote(string who, string where, string msg) {
     string pl, plc;
 
-    pl = (string)this_player(1)->GetKeyName();
-    plc = (string)this_player(1)->GetCapName();
+    pl = (string)this_player(1)->query_name();
+    plc = (string)this_player(1)->query_cap_name();
     where = (string)INTERMUD_D->GetMudName(where);
     INTERMUD_D->eventWrite(({ "emoteto", 5, mud_name(), pl, where, 
 	convert_name(who), plc, msg }));

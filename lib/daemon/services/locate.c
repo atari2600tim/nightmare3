@@ -18,7 +18,7 @@ void eventReceiveLocateRequest(mixed *packet) {
     object ob;
 
     if( file_name(previous_object()) != INTERMUD_D ) return;
-    if( !(ob = find_player(packet[6])) || ob->GetInvis()) return;
+    if( !(ob = find_player(packet[6])) || ob->query_invis()) return;
     if( interactive(ob) ) {
 	string *tmp = ({ });
 	if( in_input(ob) || in_edit(ob) )
@@ -31,7 +31,7 @@ void eventReceiveLocateRequest(mixed *packet) {
     else str_status = "link-dead";
     INTERMUD_D->eventWrite( ({ "locate-reply", 5, mud_name(), 0, packet[2], 
 	packet[3], mud_name(),
-	(string)ob->GetName(), idl, str_status }) );
+	(string)ob->query_name(), idl, str_status }) );
 }
 
 void eventReceiveLocateReply(mixed *packet) {
@@ -52,7 +52,7 @@ void eventReceiveLocateReply(mixed *packet) {
 
 void eventSendLocateRequest(string who) {
     string pl;
-    mixed *locate_request = ({ "locate-req", 5, mud_name(), pl, 0, 0, who });
-    if( !(pl = (string)this_player(1)->GetKeyName()) ) return;
+//    mixed *locate_request = ({ "locate-req", 5, mud_name(), pl, 0, 0, who });
+    if( !(pl = (string)this_player(1)->query_name()) ) return;
     INTERMUD_D->eventWrite( ({ "locate-req", 5, mud_name(), pl, 0, 0, who }) );
 }

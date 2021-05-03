@@ -10,12 +10,12 @@ inherit DAEMON;
 
 int cmd_rwho(string str) {
     if(!str) return 0;
-    if(!NETWORK_D->query_mud_info(str) &&
-      !NETWORK_D->query_mud_info(str = capitalize(str))) {
+    str = INTERMUD_D->GetMudName(str);
+    if(!str) {
         notify_fail("That mud is not available via rwho.\n");
         return 0;
     }
-    SERVICES_D->send_rwho_q(str);
+    SERVICES_D->eventSendWhoRequest(str);
     write("Request for rwho info sent to "+str+".\n");
     return 1;
 }

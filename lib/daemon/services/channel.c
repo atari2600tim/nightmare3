@@ -58,8 +58,8 @@ void eventReceiveChannelUserRequest(mixed *packet) {
 	    "player.", packet }) );
 	return;
     }
-    visname = (string)ob->GetCapName();
-    switch( (string)ob->GetGender() ) {
+    visname = (string)ob->query_cap_name();
+    switch( (string)ob->query_gender() ) {
     case "male": gender = 0; break;
     case "female": gender = 1; break;
     default: gender = 2; break;
@@ -141,7 +141,7 @@ varargs void eventSendChannel(string who, string ch, string msg, int emote,
 void eventSendChannelWhoRequest(string channel, string mud) {
     string pl;
 
-    pl = (string)this_player(1)->GetKeyName();
+    pl = (string)this_player(1)->query_name();
     INTERMUD_D->eventWrite(({ "chan-who-req", 5, mud_name(), pl, mud, 0,
 	channel }));
 }
@@ -175,7 +175,7 @@ int eventAdministerChannel(string channel, string *additions,
     if( member_array(channel, INTERMUD_D->GetChannels()) == -1 )
 	return 0;
     INTERMUD_D->eventWrite(({ "channel-admin", 5, mud_name(),
-	(string)this_player(1)->GetKeyName(),
+	(string)this_player(1)->query_name(),
 	(string)INTERMUD_D->GetNameserver(),
 	0, channel, additions, subs }));
 
@@ -191,7 +191,7 @@ int AddChannel(string channel, int privee) {
 	return 0;
     }
     INTERMUD_D->eventWrite(({ "channel-add", 5, mud_name(),
-	(string)this_player(1)->GetKeyName(),
+	(string)this_player(1)->query_name(),
 	(string)INTERMUD_D->GetNameserver(), 0,
 	channel, privee }));
     return 1;
@@ -203,7 +203,7 @@ int RemoveChannel(string channel) {
 	return 0;
     }
     INTERMUD_D->eventWrite(({ "channel-remove", 5, mud_name(),
-	(string)this_player(1)->GetKeyName(),
+	(string)this_player(1)->query_name(),
 	(string)INTERMUD_D->GetNameserver(), 0,
 	channel }));
     return 1;
