@@ -18,7 +18,7 @@
 #include <network.h>
 #include "include/intermud.h"
 
-#define SAVE_INTERMUD "/save/intermud.o"
+#define SAVE_INTERMUD "/daemon/save/intermud.o"
 
 inherit "/secure/std/client";
 
