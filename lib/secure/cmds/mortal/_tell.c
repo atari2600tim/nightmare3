@@ -19,8 +19,8 @@ int cmd_tell(string str) {
         maxi = sizeof(words = explode(words[1], " "));
         for(i=0; i<maxi; i++) {
             tmp = lower_case(implode(words[0..i], "."));
-            if((int)NETWORK_D->mud_exists(tmp)) {
-                mud = tmp;
+            mud = INTERMUD_D->GetMudName(tmp);
+            if(stringp(mud)) {
                 if(i+1 < maxi) msg = implode(words[i+1..maxi-1], " ");
                 else msg = "";
                 break;
@@ -46,7 +46,7 @@ int cmd_tell(string str) {
         }
         if(msg == "") return notify_fail("What do you wish to tell?\n");
     }
-    else SERVICES_D->send_gtell(mud, who, msg);
+    else SERVICES_D->eventSendTell(who, mud, msg);
     if(ob) {
         string frm;
 

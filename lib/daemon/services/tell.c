@@ -43,22 +43,21 @@ void eventReceiveTell(mixed *packet) {
 	}
     }
 
-    ob->eventPrint("%^BOLD%^RED%^" + packet[6] + "@" + packet[2] +
-      adverb + " tells you:%^RESET%^ " + packet[7], MSG_CONV);
+    message("tell","%^BOLD%^RED%^" + packet[6] + "@" + packet[2] +
+      adverb + " tells you:%^RESET%^ " + packet[7], ob);
     if(!sizeof(adverb)) ob->SetProperty("reply", packet[6] + "@" + packet[2]);
 }
 
 void eventSendTell(string who, string where, string msg) {
     string pl, plc;
 
-    pl = (string)this_player(1)->GetName();
-    plc = (string)this_player(1)->GetCapName();
+    pl = (string)this_player(1)->query_name();
+    plc = (string)this_player(1)->query_cap_name();
     where = (string)INTERMUD_D->GetMudName(where);
     INTERMUD_D->eventWrite(({ "tell", 5, mud_name(), pl, where, 
 	convert_name(who), plc, msg }));
-    this_player(1)->eventPrint("%^BOLD%^RED%^You tell " + capitalize(who) +
-      "@" +  where + ":%^RESET%^ " + msg,
-      MSG_CONV);
+    message("tell", "%^BOLD%^RED%^You tell " + capitalize(who) + "@" +
+      where + ":%^RESET%^ " + msg+"\n",this_player(1));
 }
 
 

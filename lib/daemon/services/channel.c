@@ -25,12 +25,12 @@ void eventReceiveChannelWhoReply(mixed *packet) {
     if( !(ob = find_player(packet[5])) ) return;
     packet[6] = (string)DSCHAT_D->GetLocalChannel(packet[6]);
     if( !sizeof(packet[7]) ) {
-	ob->eventPrint("No one is listening to " + packet[6] + " at " +
-	  packet[2] + ".", MSG_SYSTEM);
+	message("info","No one is listening to " + packet[6] + " at " +
+	  packet[2] + ".", ob);
 	return;
     }
-    ob->eventPrint("Listening to " + packet[6] + " at " + packet[2] + ":" +
-      implode(packet[7], "   "), MSG_SYSTEM);
+    message("info","Listening to " + packet[6] + " at " + packet[2] + ":" +
+      implode(packet[7], "   "), ob);
 }
 
 void eventReceiveChannelWhoRequest(mixed *packet) {

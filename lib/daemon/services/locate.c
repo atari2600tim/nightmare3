@@ -47,7 +47,7 @@ void eventReceiveLocateReply(mixed *packet) {
 	m += sprintf(" (idle %02d:%02d:%02d)", idl/3600, (idl/60)%60, idl%60);
     if( stringp(packet[9]) )
 	m += " [str_status: " + packet[9] + "]";
-    ob->eventPrint(m);
+    message("info",m,ob);
 }
 
 void eventSendLocateRequest(string who) {

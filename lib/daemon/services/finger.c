@@ -50,7 +50,7 @@ void eventReceiveFingerReply(mixed *packet) {
 	  "Not logged in.\n");
     fing += "Site: " + (packet[12] ? packet[12] : "Confidential") + "\n";
     fing += (packet[14] ? packet[14] : "\n");
-    ob->eventPrint(fing, MSG_SYSTEM);
+    message("info",fing,ob);
 }
 
 void eventSendFingerRequest(string who, string where) {
