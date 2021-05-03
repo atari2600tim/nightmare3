@@ -4,7 +4,7 @@
  *    created by Descartes of Borg 950623
  */
 
-#include <lib.h>
+//#include <lib.h>
 #include <daemons.h>
 
 //inherit LIB_DAEMON;
