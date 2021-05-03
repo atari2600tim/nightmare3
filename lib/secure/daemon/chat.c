@@ -113,19 +113,19 @@ int cmdLast(string feep){
 
     if(!chanlast||!Channels[feep]||member_array(this_player(), Channels[feep])==-1){
 
-	this_player()->eventPrint(mud_name() + " does not have that channel on record.", MSG_ERROR);
+	message("error",mud_name() + " does not have that channel on record.", this_player());
 	return 1;
     }
     if(!sizeof(chanlast[feep]))
     {
-	this_player()->eventPrint("That channel has no backlog.", MSG_ERROR);
+	message("error","That channel has no backlog.", this_player());
 	return 1;
     }
     if(!CanListen(this_player(),feep)){
 	write("You lack privileges to that channel.");
 	return 1;
     }
-    this_player()->eventPrint(implode(chanlast[feep], "\n"));
+    message("info",implode(chanlast[feep], "\n"), this_player());
     return 1;
 }
 
@@ -203,8 +203,8 @@ int cmdChannel(string verb, string str) {
 		}
 	    }
 	    if( !(mud = (string)INTERMUD_D->GetMudName(mud)) ) {
-		this_player()->eventPrint(mud_name() + " is not aware of "
-		  "such a place.", MSG_ERROR);
+		message("error", mud_name() + " is not aware of "
+		  "such a place.", this_player());
 		return 1;
 	    }
 	    if(!CanTalk(this_player(),verb)){
@@ -212,8 +212,7 @@ int cmdChannel(string verb, string str) {
 		return 1;
 	    }
 	    SERVICES_D->eventSendChannelWhoRequest(ch, mud);
-	    this_player()->eventPrint("Remote listing request sent.",
-	      MSG_SYSTEM);
+	    message("info","Remote listing request sent.",this_player());
 	    return 1;
 	}
 	else ch = str;
@@ -225,7 +224,7 @@ int cmdChannel(string verb, string str) {
 	}
 	who = GetChannelList(str);
 	msg = "Online: " + implode(who, "   ");
-	this_player()->eventPrint(msg, MSG_SYSTEM);
+	message("info",msg,this_player());
 	return 1;
     }
     if(!CanTalk(this_player(),verb)){
@@ -357,12 +356,12 @@ int cmdChannel(string verb, string str) {
 		}
 	    }
 	    if( msg_data ) {
-		string sgen = this_player()->GetGender();
+		string sgen = this_player()->query_gender();
 		string tgen = 0;
 
 		if( ob ) {
-		    target = ob->GetName();
-		    tgen = ob->GetGender();
+		    target = ob->query_name();
+		    tgen = ob->query_gender();
 		}
 		else if( target ) {
 		    string user, mud;
@@ -399,18 +398,17 @@ int cmdChannel(string verb, string str) {
 
     if( (int)this_player()->GetBlocked(verb) ) {
 	if( (int)this_player()->GetBlocked("all") ) {
-	    this_player()->eventPrint("You cannot chat while totally blocked.",
-	      MSG_ERROR);
+	    message("error","You cannot chat while totally blocked.",this_player());
 	    return 1;
 	}
-	this_player()->eventPrint("Turn this channel on to talk on it.", MSG_ERROR);
+	message("error","Turn this channel on to talk on it.", this_player());
 	return 1;
     }
     if( verb == "admin"  || verb == "cre") {
-	if( !(name = (string)this_player()->GetCapName()) )
-	    name = capitalize((string)this_player()->GetKeyName());
+	if( !(name = (string)this_player()->query_cap_name()) )
+	    name = capitalize((string)this_player()->query_name());
     }
-    else name = (string)this_player()->GetName();
+    else name = (string)this_player()->query_name();
     if( target_msg ) {
 	target_msg = replace_string(target_msg, "$O's", "your");
     }
@@ -470,7 +468,7 @@ varargs void eventSendChannel(string who, string ch, string msg, int emote,
 	object ob;
 	string this_msg, tmp;
 	if( target && (ob = find_player(convert_name(target))) ) {
-	    target = (string)ob->GetName();
+	    target = (string)ob->query_name();
 	}
 	switch(ch)
 	{
@@ -533,7 +531,7 @@ varargs void eventSendChannel(string who, string ch, string msg, int emote,
 		}
 		if(listener->GetNoChanColors()) tmp = decolor(tmp);
 		if(!ignore && CanListen(listener,ch) && !(listener->GetProperty("mute")))
-		    listener->eventPrint(tmp, MSG_CHAN);
+		    message("channel",tmp,listener);
 		ignore = 0;
 	    }
 	    if( member_array(ob, obs) != -1 ) {
@@ -547,7 +545,7 @@ varargs void eventSendChannel(string who, string ch, string msg, int emote,
 		    }
 		    if(ob->GetNoChanColors()) tmp = decolor(tmp);
 		    if(!ignore && CanListen(ob,ch)&& !(ob->GetProperty("mute")))
-			ob->eventPrint(tmp, MSG_CHAN);
+			message("channel",tmp,ob);
 		    ignore = 0;
 		}
 	    }
@@ -617,7 +615,7 @@ varargs void eventSendChannel(string who, string ch, string msg, int emote,
 		}
 		if(ob->GetNoChanColors()) msg = decolor(msg);
 		if(!ignore && CanListen(ob,ch)&& !(ob->GetProperty("mute")))
-		    ob->eventPrint(msg, MSG_CHAN);
+		    message("channel",msg,ob);
 
 		ignore = 0;
 		suspect ="";
@@ -636,9 +634,9 @@ string *GetChannelList(string ch) {
     if( !Channels[ch] ) return ({});
     ret = ({});
     foreach(who in Channels[ch]) {
-	if( !who || (int)who->GetInvis() || (int)who->GetBlocked(ch) )
+	if( !who || (int)who->query_invis() || (int)who->GetBlocked(ch) )
 	    continue;
-	ret += ({ (string)who->GetName() });
+	ret += ({ (string)who->query_name() });
     }
     return ret;
 }
