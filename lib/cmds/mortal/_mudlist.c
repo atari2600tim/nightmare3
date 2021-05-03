@@ -114,7 +114,7 @@ mixed cmd_mudlist(string str) {
     list = sort_array(list, 1);
     list = ({ replace_string(mud_name(),"%^","%%^^") + " recognizes " + consolidate(sizeof(borg), "a mud")+
             " matching your query: ", "" }) + list;
-    if(this_player()) this_player()->eventPage(list);
+    if(this_player()) this_player()->more(list);
     if(this_player()) return 1;
     else return implode(list,"\n");
 }
