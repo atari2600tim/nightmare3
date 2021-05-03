@@ -7,9 +7,9 @@
 #include <lib.h>
 #include <daemons.h>
 
-inherit LIB_DAEMON;
+//inherit LIB_DAEMON;
 
-mixed cmd(string str) {
+mixed cmd_mudlist(string str) {
     mixed *info;
     string *list;
     mapping borg;
@@ -17,13 +17,13 @@ mixed cmd(string str) {
     int all = 0;
 
     if(sizeof(str) && sizeof(tempy = INTERMUD_D->GetMudName(str) )) str = tempy;
-
+/*
     //imc2 mudlist
     if(sizeof(str) && str[0..3] == "imc2") {
         IMC2_D->mudlist(this_player());
         return 1;
     }
-
+*/
     if( str && str != "" ) {
         mapping tmp;
         string opt, tmpstr;
@@ -127,7 +127,7 @@ int alphabet(string a, string b) {
 
 string GetHelp() {
     return ("Syntax: mudlist [-d] [-m] [-n] [arg]\n"
-            "        <mudlist imc2>\n\n"
+//            "        <mudlist imc2>\n\n"
             "Without any arguments, it gives a full listing of all muds "
             "with which this mud is capable of communication through "
             "tell, mail, finger, rwho, and other intermud services.  "
