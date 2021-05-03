@@ -10,7 +10,6 @@
 
 #include <daemons.h>
 #include <rooms.h>
-#define MSG_SYSTEM   ((1 << 10) | (1 << 0))             /* sys messages */
 
 
 void eventReceiveFingerRequest(mixed *packet) {

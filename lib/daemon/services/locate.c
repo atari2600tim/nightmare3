@@ -10,7 +10,6 @@
 
 #include <daemons.h>
 #include <rooms.h>
-#define MSG_SYSTEM   ((1 << 10) | MSG_NOBLOCK)             /* sys messages */
 
 void eventReceiveLocateRequest(mixed *packet) {
     string str_status;

@@ -7,7 +7,6 @@
 #define SERVICE_TELL
 
 #include <daemons.h>
-#define MSG_CONV     (1 << 3)                              /* conversation */
 
 void eventReceiveTell(mixed *packet) {
     object ob, machine;

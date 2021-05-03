@@ -8,10 +8,6 @@
 #include <config.h>
 #include <daemons.h>
 #include <chat.h>
-#define MSG_NOBLOCK  (1 << 0)                 /* no blocking */
-#define MSG_ERROR    ((1 << 6) | MSG_NOBLOCK)              /* error messages */
-#define MSG_SYSTEM   ((1 << 10) | MSG_NOBLOCK)             /* sys messages */
-#define MSG_CHAN     (1 << 14)
 
 #define ORIGIN_LOCAL         "local"
 

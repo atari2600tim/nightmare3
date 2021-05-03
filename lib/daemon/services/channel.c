@@ -10,8 +10,6 @@
 
 #include <daemons.h>
 #include <rooms.h>
-#define MSG_SYSTEM   ((1 << 10) | MSG_NOBLOCK)             /* sys messages */
-#define MSG_NOBLOCK  (1 << 0)                 /* no blocking */
 
 
 nosave private string *local_chans = ({"newbie","cre","gossip","admin","error",
